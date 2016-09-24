@@ -46,6 +46,7 @@ ACodeTestNo1Character::ACodeTestNo1Character()
 	JumpingAttackAnimation = ConstructorStatics.JumpingAttackAnimationAsset.Get();
 	GetSprite()->SetFlipbook(IdleAnimation);
 
+	//GetArrowComponent()->SetArrowLocation();
 	// Use only Yaw from the controller and ignore the rest of the rotation.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = true;
@@ -97,6 +98,8 @@ ACodeTestNo1Character::ACodeTestNo1Character()
 	// behavior on the edge of a ledge versus inclines by setting this to true or false
 	GetCharacterMovement()->bUseFlatBaseForFloorChecks = true;
 
+	// Create an arrow to spawn projectiles
+	// ShootArrow = CreateDefaultSubobject<UArrowComponent>(TEXT("ShootArrow"));
 // 	TextComponent = CreateDefaultSubobject<UTextRenderComponent>(TEXT("IncarGear"));
 // 	TextComponent->SetRelativeScale3D(FVector(3.0f, 3.0f, 3.0f));
 // 	TextComponent->SetRelativeLocation(FVector(35.0f, 5.0f, 20.0f));
@@ -226,3 +229,25 @@ void ACodeTestNo1Character::StopAttack()
 {
 	IsAttacking = false;
 }
+
+//void ACodeTestNo1Character::SpawnProjectile()
+//{
+	// If we have set something to spawn
+//	if (Projectile != NULL)
+//	{
+//		UWorld* const World = GetWorld();
+//		if (World)
+//		{
+//			// Set the spawn parameters
+//			FActorSpawnParameters SpawnParams;
+//			SpawnParams.Owner = this;
+//			SpawnParams.Instigator = Instigator;
+//			
+//			
+//			// Get a vector to spawn
+//			FVector SpawnLocation = ;
+//			World->SpawnActor<AProjectileNo1>(Projectile, Spawn);
+//		}
+//	}
+//}
+

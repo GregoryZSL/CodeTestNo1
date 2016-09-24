@@ -85,6 +85,10 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
 
+	//Spawn projectileNo1
+	UPROPERTY(EditAnywhere, Category = "SpawnProjectile")
+	TSubclassOf<class AProjectileNo1> Projectile;
+
 public:
 	ACodeTestNo1Character();
 
@@ -93,5 +97,7 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+private:
+	void SpawnProjectile();
 	
 };

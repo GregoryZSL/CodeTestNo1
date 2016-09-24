@@ -20,10 +20,15 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+protected:
+
+	//set idle animation
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbookComponent* ProjectileAnimation;
+
 	// Damage Value
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ProjectileProperties)
 	float Damage;
-
 	
 	
 };
