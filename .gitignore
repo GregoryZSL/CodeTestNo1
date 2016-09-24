@@ -7,3 +7,11 @@ Saved
 *.sln
 *.suo
 *.xcodeproj
+
+*.sdf
+*.suo
+*.sln
+/Binaries
+/DerivedDataCache
+/Intermediate
+/Saved

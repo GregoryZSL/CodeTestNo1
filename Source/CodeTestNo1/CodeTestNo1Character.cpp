@@ -66,7 +66,7 @@ ACodeTestNo1Character::ACodeTestNo1Character()
 	// Create an arrow attached to the root
 	//ShootArrow = CreateDefaultSubobject<UArrowComponent>(TEXT("ShootArrow"));
 	//ShootArrow->AttachTo(RootComponent);
-
+	//随便注释一点东西
 
 	// Prevent all automatic rotation behavior on the camera, character, and camera component
 	CameraBoom->bAbsoluteRotation = true;
