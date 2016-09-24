@@ -17,18 +17,21 @@ ACodeTestNo1Character::ACodeTestNo1Character()
 	struct FConstructorStatics
 	{
 
-		/*
-		dummy comment
-		*/
 		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> RunningAnimationAsset;
 		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> IdleAnimationAsset;
 		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> JumpingAnimationAsset;
 		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> HitAnimationAsset;
+		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> StandingAttackAnimationAsset;
+		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> RunningAttackAnimationAsset;
+		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> JumpingAttackAnimationAsset;
 		FConstructorStatics()
 			: RunningAnimationAsset(TEXT("/Game/Sprites/Hero/RunningAnimation.RunningAnimation"))
 			, IdleAnimationAsset(TEXT("/Game/Sprites/Hero/StandingAnimation.StandingAnimation"))
 			, JumpingAnimationAsset(TEXT("/Game/Sprites/Hero/JumpingAnimation.JumpingAnimation"))
 			, HitAnimationAsset(TEXT("/Game/Sprites/Hero/HitAnimation.HitAnimation"))
+			, StandingAttackAnimationAsset(TEXT("/Game/Sprites/Hero/StandingAttackAnimation.StandingAttackAnimation"))
+			, RunningAttackAnimationAsset(TEXT("/Game/Sprites/Hero/RunningAttackAnimation.RunningAttackAnimation"))
+			, JumpingAttackAnimationAsset(TEXT("/Game/Sprites/Hero/JumpingAttackAnimation.JumpingAttackAnimation"))
 		{
 		}
 	};
@@ -38,6 +41,9 @@ ACodeTestNo1Character::ACodeTestNo1Character()
 	IdleAnimation = ConstructorStatics.IdleAnimationAsset.Get();
 	JumpingAnimation = ConstructorStatics.JumpingAnimationAsset.Get();
 	HitAnimation = ConstructorStatics.HitAnimationAsset.Get();
+	StandingAttackAnimation = ConstructorStatics.StandingAttackAnimationAsset.Get();
+	RunningAttackAnimation = ConstructorStatics.RunningAttackAnimationAsset.Get();
+	JumpingAttackAnimation = ConstructorStatics.JumpingAttackAnimationAsset.Get();
 	GetSprite()->SetFlipbook(IdleAnimation);
 
 	// Use only Yaw from the controller and ignore the rest of the rotation.
@@ -66,7 +72,6 @@ ACodeTestNo1Character::ACodeTestNo1Character()
 	// Create an arrow attached to the root
 	//ShootArrow = CreateDefaultSubobject<UArrowComponent>(TEXT("ShootArrow"));
 	//ShootArrow->AttachTo(RootComponent);
-	//随便注释一点东西
 
 	// Prevent all automatic rotation behavior on the camera, character, and camera component
 	CameraBoom->bAbsoluteRotation = true;
@@ -114,15 +119,33 @@ void ACodeTestNo1Character::UpdateAnimation()
 	UPaperFlipbook* DesiredAnimation = IdleAnimation;
 	
 	// Are we jumping or not.
-	if (PlayerVelocity.Z != 0.0f)
+	if (PlayerVelocity.Z != 0.0f && IsAttacking == false)
 	{
 		DesiredAnimation = JumpingAnimation;
 	}
+	else if (PlayerVelocity.Z != 0.0f && IsAttacking == true)
+	{
+		DesiredAnimation = JumpingAttackAnimation;
+	}
 	else
 	{
-		// Are we moving or standing still?
-		DesiredAnimation = (PlayerSpeed > 0.0f) ? RunningAnimation : IdleAnimation;
-	
+		// Are we StandingAttacking?
+		if (PlayerSpeed > 0.0f && IsAttacking == false)
+		{
+			DesiredAnimation = RunningAnimation;
+		}
+		else if (PlayerSpeed > 0.0f && IsAttacking == true)
+		{
+			DesiredAnimation = RunningAttackAnimation;
+		}
+		else if (IsAttacking == false)
+		{
+			DesiredAnimation = IdleAnimation;
+		}
+		else
+		{
+			DesiredAnimation = StandingAttackAnimation;
+		}
 	}
 	if (GetSprite()->GetFlipbook() != DesiredAnimation)
 	{
@@ -147,7 +170,8 @@ void ACodeTestNo1Character::SetupPlayerInputComponent(class UInputComponent* Inp
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 	InputComponent->BindAxis("MoveRight", this, &ACodeTestNo1Character::MoveRight);
-
+	InputComponent->BindAction("Attack", IE_Pressed, this, &ACodeTestNo1Character::Attack);
+	InputComponent->BindAction("Attack", IE_Released, this, &ACodeTestNo1Character::StopAttack);
 	//InputComponent->BindTouch(IE_Pressed, this, &ACodeTestNo1Character::TouchStarted);
 	//InputComponent->BindTouch(IE_Released, this, &ACodeTestNo1Character::TouchStopped);
 }
@@ -192,4 +216,13 @@ void ACodeTestNo1Character::UpdateCharacter()
 			Controller->SetControlRotation(FRotator(0.0f, 0.0f, 0.0f));
 		}
 	}
+}
+void ACodeTestNo1Character::Attack()
+{
+	IsAttacking = true;
+}
+
+void ACodeTestNo1Character::StopAttack()
+{
+	IsAttacking = false;
 }

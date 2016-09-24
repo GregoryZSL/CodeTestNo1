@@ -28,8 +28,8 @@ class ACodeTestNo1Character : public APaperCharacter
 	class USpringArmComponent* CameraBoom;
 
 	// Shoot Arrow
-	// UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Arrow, meta = (AllowPrivateAccess = "true"))
-	// class UArrowComponent* ShootArrow;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Arrow, meta = (AllowPrivateAccess = "true"))
+	class UArrowComponent* ShootArrow;
 
 	UTextRenderComponent* TextComponent;
 	virtual void Tick(float DeltaSeconds) override;
@@ -50,6 +50,19 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	class UPaperFlipbook* HitAnimation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* StandingAttackAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* RunningAttackAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* JumpingAttackAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HeroState)
+	bool IsAttacking;
+
+
 	/** Called to choose the correct animation to play based on the character's movement state */
 	void UpdateAnimation();
 
@@ -57,6 +70,10 @@ protected:
 	void MoveRight(float Value);
 
 	void UpdateCharacter();
+
+	void Attack();
+
+	void StopAttack();
 
 	/** Handle touch inputs. */
 	void TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location);
