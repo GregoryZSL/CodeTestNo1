@@ -16,6 +16,10 @@ ACodeTestNo1Character::ACodeTestNo1Character()
 	// Setup the assets
 	struct FConstructorStatics
 	{
+
+		/*
+		dummy comment
+		*/
 		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> RunningAnimationAsset;
 		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> IdleAnimationAsset;
 		ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> JumpingAnimationAsset;
