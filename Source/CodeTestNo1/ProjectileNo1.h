@@ -25,6 +25,7 @@ protected:
 	//set idle animation
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	class UPaperFlipbookComponent* ProjectileAnimation;
+	
 
 	// Damage Value
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ProjectileProperties)

@@ -11,8 +11,7 @@ AProjectileNo1::AProjectileNo1()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	ProjectileAnimation = CreateDefaultSubobject<UPaperFlipbookComponent>("Projectile");
-	ProjectileAnimation->AttachTo(RootComponent);
+
 }
 
 // Called when the game starts or when spawned
